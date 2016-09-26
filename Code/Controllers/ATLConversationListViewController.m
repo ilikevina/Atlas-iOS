@@ -354,7 +354,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     }
     NSIndexPath *indexPath = [self.queryController indexPathForObject:conversation];
     if (indexPath) {
-        [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
