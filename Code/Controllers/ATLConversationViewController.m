@@ -181,6 +181,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     
     self.hasAppeared = YES;
     [self configurePaginationWindow];
+    [self configureMoreMessagesIndicatorVisibility];
     
     if (self.addressBarController && !self.addressBarController.isDisabled) {
         [self.addressBarController.addressBarView.addressBarTextView becomeFirstResponder];
@@ -226,14 +227,11 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     [self updateTypingIndicatorOverlay:NO];
     
     // Set up the controller for the conversation
+    [self deinitializeConversationDataSource];
+    [self setupConversationDataSource];
     [self configureControllerForConversation];
     [self configureAddressBarForChangedParticipants];
     
-    if (conversation) {
-        [self setupConversationDataSource];
-    } else {
-        [self deinitializeConversationDataSource];
-    }
     CGSize contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize;
     [self.collectionView setContentOffset:[self bottomOffsetForContentSize:contentSize] animated:NO];
 }
@@ -432,16 +430,19 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     if (decelerate) return;
     [self configurePaginationWindow];
+    [self configureMoreMessagesIndicatorVisibility];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self configurePaginationWindow];
+    [self configureMoreMessagesIndicatorVisibility];
 }
 
 - (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
 {
     [self configurePaginationWindow];
+    [self configureMoreMessagesIndicatorVisibility];
 }
 
 #pragma mark - Reusable View Configuration
@@ -1205,7 +1206,6 @@ static NSInteger const ATLPhotoActionSheet = 1000;
           forChangeType:(LYRQueryControllerChangeType)type
            newIndexPath:(NSIndexPath *)newIndexPath
 {
-    if (self.expandingPaginationWindow) return;
     NSInteger currentIndex = indexPath ? [self.conversationDataSource collectionViewSectionForQueryControllerRow:indexPath.row] : NSNotFound;
     NSInteger newIndex = newIndexPath ? [self.conversationDataSource collectionViewSectionForQueryControllerRow:newIndexPath.row] : NSNotFound;
     [self.objectChanges addObject:[ATLDataSourceChange changeObjectWithType:type newIndex:newIndex currentIndex:currentIndex]];
