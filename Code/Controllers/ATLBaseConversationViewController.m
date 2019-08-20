@@ -199,7 +199,9 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
     CGSize contentSize = self.collectionView.contentSize;
-    [self.collectionView setContentOffset:[self bottomOffsetForContentSize:contentSize] animated:animated];
+    CGPoint contentOffset = [self bottomOffsetForContentSize:contentSize];
+    contentOffset.x = self.collectionView.contentOffset.x;
+    [self.collectionView setContentOffset:contentOffset animated:animated];
 }
 
 #pragma mark - Content Inset Management  
@@ -317,7 +319,16 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     CGFloat collectionViewFrameHeight = self.collectionView.frame.size.height;
     CGFloat collectionViewBottomInset = self.collectionView.contentInset.bottom;
     CGFloat collectionViewTopInset = self.collectionView.contentInset.top;
-    CGPoint offset = CGPointMake(0, MAX(-collectionViewTopInset, contentSizeHeight - (collectionViewFrameHeight - collectionViewBottomInset)));
+    CGFloat calculatedHeight = contentSizeHeight - (collectionViewFrameHeight - collectionViewBottomInset);
+    
+    if (@available(iOS 11, *)) {
+        if (collectionViewTopInset > calculatedHeight) {
+            CGFloat topBarHeight = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+            collectionViewTopInset += topBarHeight;
+        }
+    }
+    
+    CGPoint offset = CGPointMake(0, MAX(-collectionViewTopInset, calculatedHeight));
     return offset;
 }
 

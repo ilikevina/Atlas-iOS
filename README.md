@@ -5,6 +5,13 @@
 [![Pod Platform](http://img.shields.io/cocoapods/p/Atlas.svg?style=flat)](http://cocoadocs.org/docsets/Atlas/)
 [![Pod License](http://img.shields.io/cocoapods/l/Atlas.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
+
+## Just Starting?
+
+Use our new XDK! The XDK enables a richer messaging experience and new features will be added there. See the repository at https://github.com/layerhq/iOS-XDK. Don't worry, Atlas-iOS will still be supported in the meantime.
+
+# Atlas
+
 Atlas is a lightweight, flexible set of user interface components designed to enable developers to quickly and easily integrate native communications experiences into their applications. It was designed and built from the ground up to integrate with [LayerKit](https://github.com/layerhq/releases-ios#layerkit), the native iOS SDK for accessing the [Layer](https://layer.com) communications platform. LayerKit provides developers with a simple, object oriented interface to the rich messaging capabilities provided by the Layer platform. Atlas, in turn, provides ready-made UI components that expose these capabilities directly to users.
 
 ![Walkthrough](Examples/Screenshots/walkthrough.gif)
@@ -268,13 +275,24 @@ Atlas takes advantage of Apple's `UIAppearance` protocol which lets you change U
 @property (nonatomic) UIColor *addressBarHighlightColor
 ```
 
-### [ATLAvatarImageView](Code/Views/ATLAvatarImageView.h)
+### [ATLAvatarView](Code/Views/ATLAvatarView.h)
 
 ```objc
+@property (nonatomic) UIImage *imageView;
 @property (nonatomic) CGFloat avatarImageViewDiameter
 @property (nonatomic) UIFont *initialsFont
 @property (nonatomic) UIColor *initialsColor
 @property (nonatomic) UIColor *imageViewBackgroundColor
+@property (nonatomic) BOOL presenceStatusEnabled;
+@property (nonatomic) LYRIdentityPresenceStatus presenceStatus;
+```
+
+### [ATLPresenceStatusView](Code/Views/ATLPresenceStatusView.h)
+
+```objc
+@property (nonatomic) UIColor *statusColor;
+@property (nonatomic) UIColor *statusBackgroundColor;
+@property (nonatomic) ATLMPresenceStatusViewMode mode;
 ```
 
 ### [ATLConversationCollectionViewHeader](Code/Views/ATLConversationCollectionViewHeader.h)
